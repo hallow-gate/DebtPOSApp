@@ -1,0 +1,38 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Products collection
+    match /products/{document} {
+      allow read: if true;
+      allow create: if request.auth != null;
+      allow update: if request.auth != null && 
+        (request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+          'name', 'productCode', 'costPrice', 'retailPrice', 'price', 
+          'stock', 'lowStockThreshold', 'category', 'updatedAt'
+        ]) || request.resource.data.diff(resource.data).affectedKeys().size() == 1);
+      allow delete: if request.auth != null;
+    }
+    
+    // Customers collection
+    match /customers/{document} {
+      allow read: if true;
+      allow create: if request.auth != null;
+      allow update: if request.auth != null &&
+        (request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+          'name', 'phone', 'email', 'updatedAt'
+        ]));
+      allow delete: if request.auth != null;
+    }
+    
+    // Purchases collection
+    match /purchases/{document} {
+      allow read: if true;
+      allow create: if request.auth != null;
+      allow update: if request.auth != null &&
+        (request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+          'status', 'updatedAt'
+        ]));
+      allow delete: if request.auth != null;
+    }
+  }
+}
