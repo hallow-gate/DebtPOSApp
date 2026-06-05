@@ -24,32 +24,17 @@ jobs:
           flutter-version: '3.16.9'
           channel: 'stable'
       
+      - name: Create local.properties
+        run: |
+          echo "flutter.sdk=${{ runner.tool_cache }}/flutter" > android/local.properties
+      
       - name: Get dependencies
         run: flutter pub get
-      
-      - name: Create firebase_options.dart
-        run: |
-          mkdir -p lib
-          cat > lib/firebase_options.dart << 'EOF'
-          import 'package:firebase_core/firebase_core.dart';
-          
-          class DefaultFirebaseOptions {
-            static const FirebaseOptions android = FirebaseOptions(
-              apiKey: 'AIzaSyDfmTStSffKTDb8pPQrgBbNADK8jQq6s38',
-              appId: '1:917500508857:android:290a8b2de00934b8cfb968',
-              messagingSenderId: '917500508857',
-              projectId: 'arbify-ce847',
-              authDomain: 'arbify-ce847.firebaseapp.com',
-              storageBucket: 'arbify-ce847.firebasestorage.app',
-            );
-          }
-          EOF
       
       - name: Build APK
         run: flutter build apk --release
       
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
           name: marnie-pos-apk
           path: build/app/outputs/flutter-apk/app-release.apk
