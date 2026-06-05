@@ -9,6 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  
   firebase_core: ^2.24.2
   firebase_auth: ^4.16.0
   cloud_firestore: ^4.14.0
@@ -22,9 +23,10 @@ dependencies:
   path_provider: ^2.1.0
   cupertino_icons: ^1.0.6
   
-  # Thermal Printing
+  # Thermal Printing - Use simpler approach
   esc_pos_utils: ^1.1.0
-  esc_pos_bluetooth: ^0.4.1
+  # Remove esc_pos_bluetooth for now - it's causing issues
+  # esc_pos_bluetooth: ^0.4.1
 
 dev_dependencies:
   flutter_test:
